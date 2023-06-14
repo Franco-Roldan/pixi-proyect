@@ -1,12 +1,13 @@
 import { Container } from "pixi.js";
-import { DinoHat } from "./Dinohat";
 import { screen_app } from ".";
+import { Completed_level } from "./Completed_level";
 
 export class Scene extends Container{
     constructor(){
         super();
-        const dinowithHat: DinoHat = new DinoHat();
-        dinowithHat.position.set(((screen_app.with - dinowithHat.width) /2), ((screen_app.height - dinowithHat.height)/2));
-        this.addChild(dinowithHat);
+        const Scena_completed_level: Completed_level = new Completed_level();
+       
+        Scena_completed_level.position.set(((screen_app.with - Scena_completed_level.width) /2), ((screen_app.height - Scena_completed_level.height)/2));
+        this.addChild(Scena_completed_level);
     }
 }
