@@ -2,6 +2,8 @@ import { Container, NineSlicePlane, Sprite, Text, Texture} from "pixi.js";
 
 export class Completed_level extends Container{
 
+    private text_key_press: Text;
+
     constructor(){
         super();
         
@@ -38,9 +40,11 @@ export class Completed_level extends Container{
 
         const button_cancel = new Button('Cancel', 'icon_cancel');
         button_cancel.position.set(Math.round(base_texture.width/3) - (button_cancel.width/2), base_texture.height - button_cancel.height - 30);
+        
+        //button_cancel.cancel();
 
         const button_next = new Button('Next', 'icon_next');
-        button_next.position.set(Math.round((base_texture.width/3)*2) - (button_cancel.width/2), base_texture.height - button_cancel.height - 30)
+        button_next.position.set(Math.round((base_texture.width/3)*2) - (button_next.width/2), base_texture.height - button_next.height - 30)
 
         base_texture.addChild(button_cancel);
         base_texture.addChild(button_next);
@@ -66,17 +70,27 @@ export class Completed_level extends Container{
         vertical_line_1.position.set(25, (base_texture.height/2) - (vertical_line_1.width/2));
         vertical_line_2.position.set((base_texture.width - 20), (base_texture.height/2) - (vertical_line_2.width/2));
         
-
-
         vertical_line_1.angle = 90;
         vertical_line_2.angle = 90;
 
         base_texture.addChild(vertical_line_1);
         base_texture.addChild(vertical_line_2);
 
+        this.text_key_press = new Text('space key press', {fontSize: 18, fill:0x00000});
+        this.text_key_press.position.set((base_texture.width - this.text_key_press.width)/2, 220);
+        
+        base_texture.addChild(this.text_key_press);
+
+        document.addEventListener('keydown', this.onkeypress);
 
     }
+    
+    public onkeypress(e:KeyboardEvent): void{
+        console.log(e);
 
+        //this.text_key_press.text = "hola"; 
+        
+    }
 }
 
 class Star extends Container{
@@ -102,13 +116,18 @@ class Star extends Container{
 }
 
 class Score extends Container{
+
+    public text:string;
+
     constructor(text:string, sprite_text:string){
         super();
+
+        this.text = text;
 
         const frame_score: Sprite = Sprite.from('frame_score');
         const icon: Sprite = Sprite.from(sprite_text);
         const text_money: Text = new Text(
-            text, {fontSize: 36, fill:0xffffff}
+            this.text, {fontSize: 36, fill:0xffffff}
         );
 
         icon.position.set(15, (frame_score.height/2) - (icon.height/2));
@@ -122,23 +141,50 @@ class Score extends Container{
 }
 
 class Button extends Container{
+
+    private text:string;
+    private icon_button:string;
+    private frame_button:Sprite;
     constructor(text:string,icon_button:string){
         super(); 
-        const frame_button: Sprite = Sprite.from('frame_button');
-        const icon: Sprite = Sprite.from(icon_button);
+        this.text = text;
+        this.icon_button = icon_button;
+
+        this.frame_button = Sprite.from('frame_button');
+        const icon: Sprite = Sprite.from(this.icon_button);
         const text_button: Text = new Text(
-            text, {fontSize: 24, fill:0x839192}
+            this.text, {fontSize: 24, fill:0x839192}
         );
         
         icon.scale.set(0.7);
-        icon.position.set(10,(frame_button.height/2) - (icon.height/2));
-        text_button.position.set(15 +icon.width, (frame_button.height/2) - (text_button.height/2));
+        icon.position.set(10,(this.frame_button.height/2) - (icon.height/2));
+        text_button.position.set(15 +icon.width, (this.frame_button.height/2) - (text_button.height/2));
         
-        frame_button.addChild(icon);
-        frame_button.addChild(text_button);
+        this.frame_button.addChild(icon);
+        this.frame_button.addChild(text_button);
 
-        this.addChild(frame_button);
+        this.addChild(this.frame_button);
+
+        this.frame_button.on("pointerdown", this.Onmousedown, this);
+        this.frame_button.on("pointerup", this.Onmouseup, this)
+        this.frame_button.interactive = true;
+
+        
 
 
     }
+
+    public Onmousedown(): void{
+        
+        console.log('click');
+        this.frame_button.texture = Texture.from('frame_button_down');
+        this.frame_button.cursor = 'pointer';
+    }
+    public Onmouseup():void{
+
+        this.frame_button.texture = Texture.from('frame_button');
+    }
+
+
+
 }
