@@ -24,6 +24,7 @@ export const assets = {
     // player 
     player1: './GUI_assets/assest/PNG/player_09.png',
     player2: './GUI_assets/assest/PNG/player_10.png',
-    player3: './GUI_assets/assest/PNG/player_11.png'
+    player3: './GUI_assets/assest/PNG/player_11.png',
+    dvd: 'dvd.png'
 
 };

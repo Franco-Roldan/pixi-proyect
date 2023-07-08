@@ -1,7 +1,8 @@
 import { Application,Assets, Ticker} from 'pixi.js'
 import { assets } from './assets';
-import { MarioAnimated } from './MarioAnimated';
+//import { MarioAnimated } from './MarioAnimated';
 import { KeyBoard } from './util/Keyboard';
+import { Dvd } from './dvd';
 //import { Scene } from './Scene';
 
 
@@ -47,7 +48,7 @@ window.dispatchEvent( new Event('resize'));
 
 Assets.addBundle( 'myassets', assets);
 Assets.loadBundle(['myassets']).then(()=>{
-	const newScene = new MarioAnimated();
+	const newScene = new Dvd();
  	app.stage.addChild(newScene);
 
 	Ticker.shared.add(function (deltaFrame){
